@@ -5,14 +5,14 @@ import { notFound } from "next/navigation";
 
 interface Params {
   params: {
-    id: Promise<string>;
+    id: string;
   };
 }
 
 export const revalidate = 60; // ISR every 60 seconds
 
 export default async function ProductDetailsPage({ params }: Params) {
-  const { id } = await params;
+  const { id } = params;
 
   // Fetch the selected product with category
   const { data: product, error } = await supabase
