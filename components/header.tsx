@@ -5,9 +5,24 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Menu } from "lucide-react";
+import { useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
 
 export function Header() {
   const pathname = usePathname();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const isActive = (path: string) => {
     if (path === "/") {
@@ -16,16 +31,30 @@ export function Header() {
     return pathname.startsWith(path);
   };
 
-  const getLinkClassName = (path: string) => {
-    const baseClasses = "transition-colors font-medium";
+  const getLinkClassName = (path: string, isMobile: boolean = false) => {
+    const baseClasses = cn(
+      "transition-colors font-medium",
+      isMobile && "block w-full py-2"
+    );
     if (isActive(path)) {
-      return `${baseClasses} text-primary`;
+      return cn(baseClasses, "text-primary");
     }
-    return `${baseClasses} text-muted-foreground hover:text-foreground`;
+    return cn(baseClasses, "text-muted-foreground hover:text-foreground");
   };
 
+  const navLinks = [
+    { href: "/", label: "Home" },
+    { href: "/categories", label: "Categories" },
+    { href: "/submit", label: "Submit Product" },
+  ];
+
   return (
-    <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header
+      className={cn(
+        "sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60",
+        isScrolled && "shadow-sm"
+      )}
+    >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center flex-1 gap-2">
@@ -43,18 +72,15 @@ export function Header() {
           </div>
 
           <nav className="hidden md:flex items-center justify-center space-x-8 flex-1">
-            <Link href="/" className={getLinkClassName("/")}>
-              Home
-            </Link>
-            <Link
-              href="/categories"
-              className={getLinkClassName("/categories")}
-            >
-              Categories
-            </Link>
-            <Link href="/submit" className={getLinkClassName("/submit")}>
-              Submit Product
-            </Link>
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={getLinkClassName(link.href)}
+              >
+                {link.label}
+              </Link>
+            ))}
           </nav>
 
           <div className="flex items-center justify-end space-x-4 flex-1">
@@ -62,6 +88,37 @@ export function Header() {
             <Button asChild variant="default" className="hidden sm:inline-flex">
               <Link href="/submit">Submit Your Product</Link>
             </Button>
+
+            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+              <SheetTrigger asChild className="md:hidden">
+                <Button variant="ghost" size="icon" className="shrink-0">
+                  <Menu className="h-5 w-5" />
+                  <span className="sr-only">Toggle menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[300px] sm:w-[400px] p-6">
+                <nav className="flex flex-col space-y-4 mt-8">
+                  {navLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className={getLinkClassName(link.href, true)}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                  <Button asChild className="mt-4">
+                    <Link
+                      href="/submit"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Submit Your Product
+                    </Link>
+                  </Button>
+                </nav>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </div>
