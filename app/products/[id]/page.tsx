@@ -1,0 +1,113 @@
+import { supabase } from "@/lib/supabase";
+import Image from "next/image";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+
+interface Params {
+  params: {
+    id: Promise<string>;
+  };
+}
+
+export const revalidate = 60; // ISR every 60 seconds
+
+export default async function ProductDetailsPage({ params }: Params) {
+  const { id } = await params;
+
+  // Fetch the selected product with category
+  const { data: product, error } = await supabase
+    .from("products")
+    .select("*, category:categories(name, slug)")
+    .eq("id", id)
+    .single();
+
+  if (!product || error) return notFound();
+
+  // Fetch related products from the same category (excluding current product)
+  const { data: relatedProducts } = await supabase
+    .from("products")
+    .select("id, name, logo_url")
+    .eq("category_id", product.category_id)
+    .neq("id", product.id)
+    .limit(4);
+
+  return (
+    <div className="p-6 space-y-12 max-w-full xl:max-w-7xl mx-auto">
+      {/* Product Details */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+        <div className="relative w-full h-80 md:h-[400px] rounded-lg overflow-hidden bg-muted">
+          {product.image_url ? (
+            <Image
+              src={product.image_url}
+              alt={product.name}
+              fill
+              className="object-cover"
+            />
+          ) : (
+            <div className="flex items-center justify-center w-full h-full text-muted-foreground">
+              No Image
+            </div>
+          )}
+        </div>
+
+        <div>
+          <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
+          <p className="text-muted-foreground mb-4">{product.description}</p>
+
+          <p className="text-sm mb-2">
+            <span className="font-medium">Category:</span>{" "}
+            <Link
+              href={`/categories/${product.category.slug}`}
+              className="text-primary hover:underline"
+            >
+              {product.category.name}
+            </Link>
+          </p>
+
+          {product.url && (
+            <a
+              href={product.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block mt-4 px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition"
+            >
+              Visit Website
+            </a>
+          )}
+        </div>
+      </div>
+
+      {/* Related Products */}
+      {relatedProducts && relatedProducts.length > 0 && (
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold">Related Tools</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+            {relatedProducts.map((p) => (
+              <Link
+                key={p.id}
+                href={`/products/${p.id}`}
+                className="block border rounded-lg p-4 hover:shadow-md transition"
+              >
+                <div className="relative w-full h-40 bg-muted rounded-md overflow-hidden">
+                  {p.logo_url ? (
+                    <Image
+                      src={p.logo_url}
+                      alt={p.name}
+                      fill
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center h-full text-sm text-muted-foreground">
+                      No Image
+                    </div>
+                  )}
+                </div>
+                <h3 className="mt-2 font-semibold truncate">{p.name}</h3>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
