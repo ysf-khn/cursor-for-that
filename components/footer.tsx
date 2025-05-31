@@ -85,7 +85,7 @@ export function Footer() {
         </div>
 
         <div className="border-t mt-8 pt-8 text-center text-muted-foreground">
-          <p className="mb-4">Created for the community.</p>
+          <p className="mb-4">Built with ❤️ for the community.</p>
           <p>
             Like this?
             <a
