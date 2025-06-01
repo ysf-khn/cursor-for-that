@@ -83,7 +83,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
         <div className="flex items-center justify-between mt-4 pt-4 border-t">
           <Link
-            href={`/products/${product.id}`}
+            href={`/products/${product.slug}`}
             className="text-primary hover:text-primary/80 font-medium text-sm transition-colors"
           >
             Learn More

@@ -24,7 +24,7 @@ export default async function HomePage() {
         const { data: products } = await supabase
           .from("products")
           .select(
-            "id, name, description, url, pricing, logo_url, image_url, category_id, category_name, featured, status, created_at, updated_at"
+            "id, name, description, url, pricing, logo_url, image_url, category_id, category_name, featured, status, created_at, updated_at, slug"
           )
           .eq("category_id", cat.id);
 
@@ -71,55 +71,67 @@ export default async function HomePage() {
             />
 
             {/* Feature Highlights */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 max-w-4xl mx-auto">
-              <div className="group p-6 flex flex-col items-center rounded-2xl bg-card/50 border border-border/50 hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/15 transition-colors">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-24 max-w-5xl mx-auto">
+              <div className="group p-8 rounded-2xl bg-card/50 border border-border/50 hover:border-primary/30 hover:bg-card/80 transition-all duration-300">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <Zap className="w-6 h-6 text-primary" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">
-                  Lightning Fast
+                <h3 className="text-xl font-semibold mb-4 text-foreground">
+                  AI-Powered Tools
                 </h3>
-                <p className="text-sm text-muted-foreground">
-                  Instantly find tools that match your specific workflow needs
+                <p className="text-muted-foreground leading-relaxed">
+                  Discover cutting-edge SaaS applications that harness the power
+                  of artificial intelligence to streamline your workflows.
                 </p>
               </div>
 
-              <div className="group p-6 flex flex-col items-center rounded-2xl bg-card/50 border border-border/50 hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/15 transition-colors">
-                  <Target className="w-6 h-6 text-primary" />
+              <div className="group p-8 rounded-2xl bg-card/50 border border-border/50 hover:border-primary/30 hover:bg-card/80 transition-all duration-300">
+                <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Target className="w-6 h-6 text-blue-500" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">
+                <h3 className="text-xl font-semibold mb-4 text-foreground">
                   Curated Selection
                 </h3>
-                <p className="text-sm text-muted-foreground">
-                  Hand-picked tools that actually deliver on their AI promises
+                <p className="text-muted-foreground leading-relaxed">
+                  Every tool is carefully reviewed and categorized to help you
+                  find exactly what you need for your specific use case.
                 </p>
               </div>
 
-              <div className="group p-6 flex flex-col items-center rounded-2xl bg-card/50 border border-border/50 hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/15 transition-colors">
-                  <Sparkles className="w-6 h-6 text-primary" />
+              <div className="group p-8 rounded-2xl bg-card/50 border border-border/50 hover:border-primary/30 hover:bg-card/80 transition-all duration-300">
+                <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Sparkles className="w-6 h-6 text-purple-500" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">
-                  Always Updated
+                <h3 className="text-xl font-semibold mb-4 text-foreground">
+                  Community Driven
                 </h3>
-                <p className="text-sm text-muted-foreground">
-                  Fresh discoveries and the latest AI-powered innovations
+                <p className="text-muted-foreground leading-relaxed">
+                  Built by the community, for the community. Submit your
+                  favorite tools and help others discover amazing solutions.
                 </p>
               </div>
             </div>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button asChild size="lg" className="group">
-                <Link href="/categories">
-                  Explore All Categories
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </Button>
-              <Button asChild variant="outline" size="lg">
-                <Link href="/submit">Submit Your Product</Link>
-              </Button>
+            {/* CTA Section */}
+            <div className="mt-24 p-12 rounded-3xl bg-gradient-to-r from-primary/10 via-blue-500/10 to-purple-500/10 border border-primary/20">
+              <h2 className="text-3xl font-bold mb-6 text-foreground">
+                Ready to discover your next favorite tool?
+              </h2>
+              <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+                Join thousands of professionals who use our directory to find
+                the perfect AI-powered solutions for their needs.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button asChild size="lg" className="px-8">
+                  <Link href="/categories">
+                    Browse All Categories
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Link>
+                </Button>
+                <Button asChild variant="outline" size="lg" className="px-8">
+                  <Link href="/submit">Submit Your Tool</Link>
+                </Button>
+              </div>
             </div>
           </div>
         </div>

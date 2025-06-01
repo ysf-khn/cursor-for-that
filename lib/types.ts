@@ -26,6 +26,7 @@ export interface Product {
   status: string;
   created_at: string;
   updated_at: string;
+  slug: string;
   categories?: Category | null; // For joined data
 }
 
@@ -44,6 +45,7 @@ export interface Submission {
   rejection_reason: string | null;
   created_at: string;
   updated_at: string;
+  slug: string;
 }
 
 // Default categories - these will be loaded from the database
@@ -185,6 +187,7 @@ export type Database = {
           status: string;
           created_at: string;
           updated_at: string;
+          slug: string;
         };
         Insert: {
           id?: string;
@@ -200,6 +203,7 @@ export type Database = {
           status?: string;
           created_at?: string;
           updated_at?: string;
+          slug?: string;
         };
         Update: {
           id?: string;
@@ -214,6 +218,7 @@ export type Database = {
           featured?: boolean;
           status?: string;
           updated_at?: string;
+          slug?: string;
         };
       };
       submissions: {
@@ -232,6 +237,7 @@ export type Database = {
           rejection_reason: string | null;
           created_at: string;
           updated_at: string;
+          slug: string;
         };
         Insert: {
           id?: string;
@@ -248,6 +254,7 @@ export type Database = {
           rejection_reason?: string | null;
           created_at?: string;
           updated_at?: string;
+          slug?: string;
         };
         Update: {
           id?: string;
@@ -263,6 +270,7 @@ export type Database = {
           status?: string;
           rejection_reason?: string | null;
           updated_at?: string;
+          slug?: string;
         };
       };
     };

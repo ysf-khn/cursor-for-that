@@ -21,7 +21,8 @@ export async function getProducts(filters?: {
       *,
       categories (
         id,
-        name
+        name,
+        slug
       )
     `
     )

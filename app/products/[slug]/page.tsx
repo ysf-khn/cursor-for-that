@@ -4,19 +4,19 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 interface Params {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }
 
 export const revalidate = 60; // ISR every 60 seconds
 
 export default async function ProductDetailsPage({ params }: Params) {
-  const { id } = await params;
+  const { slug } = await params;
 
   // Fetch the selected product with category
   const { data: product, error } = await supabase
     .from("products")
     .select("*, category:categories(name, slug)")
-    .eq("id", id)
+    .eq("slug", slug)
     .single();
 
   if (!product || error) return notFound();
@@ -24,7 +24,7 @@ export default async function ProductDetailsPage({ params }: Params) {
   // Fetch related products from the same category (excluding current product)
   const { data: relatedProducts } = await supabase
     .from("products")
-    .select("id, name, logo_url, image_url")
+    .select("id, name, logo_url, image_url, slug")
     .eq("category_id", product.category_id)
     .neq("id", product.id)
     .limit(4);
@@ -99,7 +99,7 @@ export default async function ProductDetailsPage({ params }: Params) {
             {relatedProducts.map((p) => (
               <Link
                 key={p.id}
-                href={`/products/${p.id}`}
+                href={`/products/${p.slug}`}
                 className="group block border rounded-lg p-4 hover:shadow-md transition"
               >
                 <div className="space-y-8 ">

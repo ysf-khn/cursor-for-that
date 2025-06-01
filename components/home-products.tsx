@@ -48,80 +48,76 @@ export const HomeProducts = ({
                     {/* Logo and Pricing Badge */}
                     <div className="flex items-start justify-between">
                       <Link
-                        href={`/products/${product.id}`}
+                        href={`/products/${product.slug}`}
                         className="w-full relative flex items-center justify-between gap-2"
                       >
-                        {product.logo_url ? (
-                          <div className="w-12 h-12 rounded-lg overflow-hidden bg-muted flex-shrink-0 ring-2 ring-transparent group-hover:ring-primary/20 transition-all">
-                            <Image
-                              src={product.logo_url}
-                              alt={`${product.name} logo`}
-                              width={48}
-                              height={48}
-                              className="w-full h-full object-cover"
-                              loading="lazy"
-                            />
+                        {/* Logo */}
+                        <div className="flex items-center gap-3 flex-1 min-w-0">
+                          {product.logo_url ? (
+                            <div className="relative h-12 w-12 rounded-lg overflow-hidden bg-muted flex-shrink-0">
+                              <Image
+                                src={product.logo_url}
+                                alt={`${product.name} logo`}
+                                fill
+                                className="object-cover"
+                                sizes="48px"
+                              />
+                            </div>
+                          ) : (
+                            <div className="h-12 w-12 rounded-lg bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center flex-shrink-0">
+                              <span className="text-primary font-bold text-lg">
+                                {product.name.charAt(0).toUpperCase()}
+                              </span>
+                            </div>
+                          )}
+
+                          {/* Product Name */}
+                          <div className="min-w-0 flex-1">
+                            <h3 className="font-semibold text-lg leading-tight line-clamp-2 group-hover:text-primary transition-colors">
+                              {product.name}
+                            </h3>
                           </div>
-                        ) : (
-                          <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary/20 to-primary/40 flex items-center justify-center flex-shrink-0 ring-2 ring-transparent group-hover:ring-primary/20 transition-all">
-                            <span
-                              className="text-primary font-bold text-lg"
-                              aria-hidden="true"
-                            >
-                              {product.name.charAt(0).toUpperCase()}
-                            </span>
-                          </div>
-                        )}
+                        </div>
+
+                        {/* Pricing Badge */}
                         <Badge
-                          variant="outline"
-                          className={`text-xs font-medium ${getPricingBadgeStyle(
-                            product.pricing
-                          )}`}
+                          className={getPricingBadgeStyle(product.pricing)}
                         >
                           {product.pricing}
                         </Badge>
                       </Link>
                     </div>
 
-                    {/* Product Details */}
-                    <Link
-                      href={`/products/${product.id}`}
-                      className="block space-y-2 transition-colors"
-                    >
-                      <h3 className="font-semibold text-lg truncate">
-                        {product.name}
-                      </h3>
-                      <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
+                    {/* Description */}
+                    <Link href={`/products/${product.slug}`}>
+                      <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">
                         {product.description}
                       </p>
                     </Link>
-                  </div>
 
-                  {/* Visit Button */}
-                  <div className="px-6 pb-6">
-                    <Button
-                      asChild
-                      size="sm"
-                      variant="outline"
-                      className="w-full group/btn bg-primary/10 hover:bg-primary text-primary hover:text-primary-foreground border border-primary/20 hover:border-primary transition-all"
-                    >
-                      <a
-                        href={product.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2"
+                    {/* Action Buttons */}
+                    <div className="flex gap-2 pt-2">
+                      <Button
+                        asChild
+                        size="sm"
+                        variant="outline"
+                        className="flex-1"
                       >
-                        Visit Site
-                        <ExternalLink className="w-3 h-3 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
-                      </a>
-                    </Button>
+                        <Link href={`/products/${product.slug}`}>Details</Link>
+                      </Button>
+                      <Button asChild size="sm" className="flex-1">
+                        <a
+                          href={product.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center gap-1"
+                        >
+                          Visit
+                          <ExternalLink className="w-3 h-3" />
+                        </a>
+                      </Button>
+                    </div>
                   </div>
-
-                  {/* Hover overlay effect */}
-                  <div
-                    aria-hidden="true"
-                    className="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
-                  />
                 </article>
               ))}
             </div>

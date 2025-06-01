@@ -15,37 +15,32 @@ import { Button } from "@/components/ui/button";
 
 interface Params {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{
-    search?: string;
-    pricing?: string;
-    view?: "grid" | "list";
-  }>;
 }
 
-export const revalidate = 60; // ISR every 60s
+export const revalidate = 60; // ISR every 60 seconds
 
 /**
- * Get pricing badge color based on pricing type
+ * Utility function to get pricing badge color
  */
-function getPricingColor(pricing: string): string {
-  switch (pricing.toLowerCase()) {
-    case "free":
-      return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200";
-    case "freemium":
-      return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200";
-    case "paid":
-      return "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200";
+function getPricingColor(pricing: string) {
+  switch (pricing) {
+    case "Free":
+      return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
+    case "Freemium":
+      return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300";
+    case "Paid":
+      return "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300";
     default:
-      return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200";
+      return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
   }
 }
 
 /**
- * Truncate description text to specified length
+ * Utility function to truncate description
  */
-function truncateDescription(text: string, maxLength: number = 120): string {
-  if (text.length <= maxLength) return text;
-  return text.slice(0, maxLength).trim() + "...";
+function truncateDescription(description: string, maxLength: number) {
+  if (description.length <= maxLength) return description;
+  return description.substring(0, maxLength).trim() + "...";
 }
 
 export default async function CategoryPage({ params }: Params) {
@@ -62,7 +57,7 @@ export default async function CategoryPage({ params }: Params) {
   const { data: products } = await supabase
     .from("products")
     .select(
-      "id, name, description, url, pricing, logo_url, featured, created_at"
+      "id, name, description, url, pricing, logo_url, featured, created_at, slug"
     )
     .eq("category_id", category.id)
     .eq("status", "active")
@@ -90,7 +85,7 @@ export default async function CategoryPage({ params }: Params) {
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto flex justify-center px-4 py-8">
+      <div className="container mx-auto px-4 py-8">
         {/* Products Grid/List */}
         {!products || products.length === 0 ? (
           <Card className="text-center py-12">
@@ -147,6 +142,7 @@ interface ProductCardProps {
     logo_url: string | null;
     featured: boolean;
     created_at: string;
+    slug: string;
   };
   categoryName: string;
 }
@@ -176,7 +172,7 @@ function ProductCard({ product, categoryName }: ProductCardProps) {
             )}
             <div className="min-w-0 flex-1">
               <CardTitle className="text-lg leading-tight line-clamp-2 transition-colors">
-                <Link href={`/products/${product.id}`}>{product.name}</Link>
+                <Link href={`/products/${product.slug}`}>{product.name}</Link>
               </CardTitle>
             </div>
           </div>
@@ -203,7 +199,7 @@ function ProductCard({ product, categoryName }: ProductCardProps) {
 
         <div className="flex items-center gap-2 mt-4 pt-4 border-t">
           <Button asChild size="sm" variant="outline" className="flex-1">
-            <Link href={`/products/${product.id}`}>Details</Link>
+            <Link href={`/products/${product.slug}`}>Details</Link>
           </Button>
           <Button asChild size="sm" className="flex-1">
             <a
