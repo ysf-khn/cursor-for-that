@@ -52,6 +52,7 @@ export const DEFAULT_CATEGORIES = [
   "SEO",
   "Marketing",
   "Writing",
+  "Web Scraping",
   "Video & Audio",
   "Design & UI/UX",
   "Analytics",

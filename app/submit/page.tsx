@@ -57,6 +57,7 @@ const CATEGORIES = [
   "Social Media",
   "Task Management",
   "Video & Audio",
+  "Web Scraping",
   "Writing",
 ] as const;
 
