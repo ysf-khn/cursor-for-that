@@ -71,6 +71,8 @@ export const DEFAULT_CATEGORIES = [
   "Social Media",
   "Education & Training",
   "Productivity",
+  "Legal",
+  "Payments",
 ] as const;
 
 export type DefaultCategory = (typeof DEFAULT_CATEGORIES)[number];
