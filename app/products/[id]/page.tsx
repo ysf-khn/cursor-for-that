@@ -33,13 +33,14 @@ export default async function ProductDetailsPage({ params }: Params) {
     <div className="p-6 space-y-12 max-w-full xl:max-w-7xl mx-auto">
       {/* Product Details */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-        <div className="relative w-full h-80 md:h-[400px] rounded-lg overflow-hidden bg-muted">
+        <div className="relative w-full aspect-[2/1] rounded-lg overflow-hidden bg-muted">
           {product.image_url ? (
             <Image
               src={product.image_url}
               alt={product.name}
               fill
-              className="object-cover"
+              className="object-contain"
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
           ) : (
             <div className="flex items-center justify-center w-full h-full text-muted-foreground">
@@ -49,18 +50,33 @@ export default async function ProductDetailsPage({ params }: Params) {
         </div>
 
         <div>
-          <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
+            <p
+              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                product.pricing === "Free"
+                  ? "bg-green-100 text-green-800"
+                  : product.pricing === "Freemium"
+                  ? "bg-blue-100 text-blue-800"
+                  : "bg-purple-100 text-purple-800"
+              }`}
+            >
+              {product.pricing}
+            </p>
+          </div>
           <p className="text-muted-foreground mb-4">{product.description}</p>
 
-          <p className="text-sm mb-2">
-            <span className="font-medium">Category:</span>{" "}
-            <Link
-              href={`/categories/${product.category.slug}`}
-              className="text-primary hover:underline"
-            >
-              {product.category.name}
-            </Link>
-          </p>
+          <div className="space-y-2 mb-4">
+            <p className="text-sm">
+              <span className="font-medium">Category:</span>{" "}
+              <Link
+                href={`/categories/${product.category.slug}`}
+                className="text-primary hover:underline"
+              >
+                {product.category.name}
+              </Link>
+            </p>
+          </div>
 
           {product.url && (
             <a
