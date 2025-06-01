@@ -24,7 +24,7 @@ export default async function ProductDetailsPage({ params }: Params) {
   // Fetch related products from the same category (excluding current product)
   const { data: relatedProducts } = await supabase
     .from("products")
-    .select("id, name, logo_url")
+    .select("id, name, logo_url, image_url")
     .eq("category_id", product.category_id)
     .neq("id", product.id)
     .limit(4);
@@ -33,7 +33,7 @@ export default async function ProductDetailsPage({ params }: Params) {
     <div className="p-6 space-y-12 max-w-full xl:max-w-7xl mx-auto">
       {/* Product Details */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-        <div className="relative w-full aspect-[2/1] rounded-lg overflow-hidden bg-muted">
+        <div className="relative w-full aspect-[2/1] rounded-lg overflow-hidden bg-white dark:bg-black">
           {product.image_url ? (
             <Image
               src={product.image_url}
@@ -50,8 +50,8 @@ export default async function ProductDetailsPage({ params }: Params) {
         </div>
 
         <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
+          <div className="flex items-center gap-3 mb-4">
+            <h1 className="text-3xl font-bold">{product.name}</h1>
             <p
               className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                 product.pricing === "Free"
@@ -95,28 +95,51 @@ export default async function ProductDetailsPage({ params }: Params) {
       {relatedProducts && relatedProducts.length > 0 && (
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold">Related Tools</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {relatedProducts.map((p) => (
               <Link
                 key={p.id}
                 href={`/products/${p.id}`}
-                className="block border rounded-lg p-4 hover:shadow-md transition"
+                className="group block border rounded-lg p-4 hover:shadow-md transition"
               >
-                <div className="relative w-full h-40 bg-muted rounded-md overflow-hidden">
-                  {p.logo_url ? (
-                    <Image
-                      src={p.logo_url}
-                      alt={p.name}
-                      fill
-                      className="object-cover"
-                    />
-                  ) : (
-                    <div className="flex items-center justify-center h-full text-sm text-muted-foreground">
-                      No Image
+                <div className="space-y-8 ">
+                  {/* Product Icon */}
+                  <div className="flex items-center gap-3">
+                    <div className="relative w-10 h-10 bg-muted rounded-lg overflow-hidden">
+                      {p.logo_url ? (
+                        <Image
+                          src={p.logo_url}
+                          alt={`${p.name} logo`}
+                          fill
+                          className="object-cover"
+                          sizes="48px"
+                        />
+                      ) : (
+                        <div className="flex items-center justify-center h-full text-sm text-muted-foreground">
+                          Logo
+                        </div>
+                      )}
                     </div>
-                  )}
+                    <h3 className="font-semibold truncate">{p.name}</h3>
+                  </div>
+
+                  {/* Product Image */}
+                  <div className="relative w-full aspect-[2/1] bg-muted rounded-md overflow-hidden">
+                    {p.image_url ? (
+                      <Image
+                        src={p.image_url}
+                        alt={p.name}
+                        fill
+                        className="object-contain group-hover:scale-105 transition duration-300"
+                        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 25vw"
+                      />
+                    ) : (
+                      <div className="flex items-center justify-center h-full text-sm text-muted-foreground">
+                        No Image
+                      </div>
+                    )}
+                  </div>
                 </div>
-                <h3 className="mt-2 font-semibold truncate">{p.name}</h3>
               </Link>
             ))}
           </div>

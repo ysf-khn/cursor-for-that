@@ -49,7 +49,7 @@ export const HomeProducts = ({
                     <div className="flex items-start justify-between">
                       <Link
                         href={`/products/${product.id}`}
-                        className="block relative"
+                        className="w-full relative flex items-center justify-between gap-2"
                       >
                         {product.logo_url ? (
                           <div className="w-12 h-12 rounded-lg overflow-hidden bg-muted flex-shrink-0 ring-2 ring-transparent group-hover:ring-primary/20 transition-all">
@@ -72,15 +72,15 @@ export const HomeProducts = ({
                             </span>
                           </div>
                         )}
+                        <Badge
+                          variant="outline"
+                          className={`text-xs font-medium ${getPricingBadgeStyle(
+                            product.pricing
+                          )}`}
+                        >
+                          {product.pricing}
+                        </Badge>
                       </Link>
-                      <Badge
-                        variant="outline"
-                        className={`text-xs font-medium ${getPricingBadgeStyle(
-                          product.pricing
-                        )}`}
-                      >
-                        {product.pricing}
-                      </Badge>
                     </div>
 
                     {/* Product Details */}
