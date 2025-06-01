@@ -111,7 +111,7 @@ export default async function CategoryPage({ params }: Params) {
         ) : (
           <div
             className={
-              "grid max-w-full md:max-w-7xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+              "grid max-w-full md:max-w-7xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto"
             }
           >
             {products.map((product) => (
