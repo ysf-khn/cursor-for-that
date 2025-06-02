@@ -31,6 +31,39 @@ import {
 import { createSubmission } from "@/actions";
 import Image from "next/image";
 
+// SEO metadata for the submit page
+export const metadata = {
+  title: "Submit Your AI Tool | AI-Powered SaaS Directory",
+  description:
+    "Submit your AI-powered SaaS tool to our curated directory. Share your prompt-powered application with our community of developers, creators, and professionals.",
+  keywords: [
+    "submit AI tool",
+    "add SaaS product",
+    "AI tool submission",
+    "SaaS directory submission",
+    "promote AI software",
+    "list AI product",
+    "AI tool marketing",
+  ],
+  openGraph: {
+    title: "Submit Your AI Tool | AI-Powered SaaS Directory",
+    description:
+      "Submit your AI-powered SaaS tool to our curated directory. Share your prompt-powered application with our community.",
+    type: "website",
+    url: "/submit",
+  },
+  twitter: {
+    card: "summary",
+    title: "Submit Your AI Tool | AI-Powered SaaS Directory",
+    description:
+      "Submit your AI-powered SaaS tool to our curated directory. Share your prompt-powered application with our community.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
 // Predefined categories
 const CATEGORIES = [
   "3D Modeling",

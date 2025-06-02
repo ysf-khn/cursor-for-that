@@ -1,6 +1,41 @@
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Browse AI Tool Categories | AI-Powered SaaS Directory",
+  description:
+    "Explore AI-powered SaaS tools organized by category. Find coding tools, productivity apps, writing assistants, design software, and more AI-enhanced solutions for your workflow.",
+  keywords: [
+    "AI tool categories",
+    "SaaS categories",
+    "coding tools",
+    "productivity tools",
+    "writing tools",
+    "design tools",
+    "AI software categories",
+    "business tools",
+    "developer tools",
+  ],
+  openGraph: {
+    title: "Browse AI Tool Categories | AI-Powered SaaS Directory",
+    description:
+      "Explore AI-powered SaaS tools organized by category. Find the perfect AI solution for coding, productivity, writing, design, and more.",
+    type: "website",
+    url: "/categories",
+  },
+  twitter: {
+    card: "summary",
+    title: "Browse AI Tool Categories | AI-Powered SaaS Directory",
+    description:
+      "Explore AI-powered SaaS tools organized by category. Find the perfect AI solution for your workflow.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
 export const revalidate = 60; // ISR every 60s
 

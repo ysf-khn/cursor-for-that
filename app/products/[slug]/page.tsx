@@ -2,12 +2,78 @@ import { supabase } from "@/lib/supabase";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
 interface Params {
   params: Promise<{ slug: string }>;
 }
 
 export const revalidate = 60; // ISR every 60 seconds
+
+/**
+ * Generate dynamic metadata for product pages
+ */
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { slug } = await params;
+
+  const { data: product } = await supabase
+    .from("products")
+    .select("name, description, pricing, image_url")
+    .eq("slug", slug)
+    .single();
+
+  if (!product) {
+    return {
+      title: "Product Not Found | AI-Powered SaaS Directory",
+      description: "The requested product could not be found.",
+    };
+  }
+
+  return {
+    title: `${product.name} - AI Tool | AI-Powered SaaS Directory`,
+    description: `${
+      product.description
+    } Discover this ${product.pricing.toLowerCase()} AI tool in our curated AI-powered SaaS directory.`,
+    keywords: [
+      product.name,
+      "AI tool",
+      "AI software",
+      product.pricing.toLowerCase(),
+      "AI-powered software",
+      "SaaS tool",
+      "artificial intelligence",
+    ],
+    openGraph: {
+      title: `${product.name} - AI Tool`,
+      description: product.description,
+      type: "website",
+      url: `/products/${slug}`,
+      images: product.image_url
+        ? [
+            {
+              url: product.image_url,
+              width: 1200,
+              height: 630,
+              alt: `${product.name} - AI tool`,
+            },
+          ]
+        : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${product.name} - AI Tool`,
+      description: product.description,
+      images: product.image_url ? [product.image_url] : undefined,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+    alternates: {
+      canonical: `/products/${slug}`,
+    },
+  };
+}
 
 export default async function ProductDetailsPage({ params }: Params) {
   const { slug } = await params;

@@ -5,6 +5,70 @@ import { ArrowRight, Sparkles, Zap, Target } from "lucide-react";
 import Link from "next/link";
 import { Category, Product } from "@/lib/types";
 import { HomeProducts } from "@/components/home-products";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Cursor For That | Find the Perfect AI Tools for Your Workflow",
+  description:
+    "Discover the next generation of SaaS tools that leverage AI prompts to revolutionize your coding, writing, productivity, and creative workflows. Browse curated AI-powered applications by category.",
+  keywords: [
+    "AI tools",
+    "SaaS directory",
+    "AI-powered software",
+    "productivity tools",
+    "coding tools",
+    "writing tools",
+    "AI prompts",
+    "artificial intelligence",
+    "software directory",
+    "business tools",
+  ],
+  authors: [{ name: "Yusuf" }],
+  creator: "Cursor For That",
+  publisher: "Cursor For That",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://cursorfor.xyz"
+  ),
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Cursor For That | Find the Perfect AI Tools",
+    description:
+      "Discover curated AI-powered SaaS tools that revolutionize coding, writing, productivity, and creative workflows. Browse by category and find your next favorite tool.",
+    url: "/",
+    siteName: "Cursor For That",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Cursor For That | Find the Perfect AI Tools",
+    description:
+      "Discover curated AI-powered SaaS tools that revolutionize your workflows. Browse by category and find your next favorite tool.",
+    creator: "@yuusuf_khaan",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    google: "your-google-verification-code",
+    yandex: "your-yandex-verification-code",
+  },
+};
 
 export const revalidate = 60;
 

@@ -12,12 +12,80 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Metadata } from "next";
 
 interface Params {
   params: Promise<{ slug: string }>;
 }
 
 export const revalidate = 60; // ISR every 60 seconds
+
+/**
+ * Generate dynamic metadata for category pages
+ */
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { slug } = await params;
+
+  const { data: category } = await supabase
+    .from("categories")
+    .select("id, name, description")
+    .eq("slug", slug)
+    .single();
+
+  if (!category) {
+    return {
+      title: "Category Not Found | AI-Powered SaaS Directory",
+      description: "The requested category could not be found.",
+    };
+  }
+
+  const { data: products } = await supabase
+    .from("products")
+    .select("id")
+    .eq("category_id", category.id)
+    .eq("status", "active");
+
+  const productCount = products?.length || 0;
+
+  return {
+    title: `${category.name} AI Tools | AI-Powered SaaS Directory`,
+    description: category.description
+      ? `${
+          category.description
+        } Discover ${productCount} AI-powered ${category.name.toLowerCase()} tools in our curated directory.`
+      : `Explore ${productCount} AI-powered ${category.name.toLowerCase()} tools. Find the perfect solution for your ${category.name.toLowerCase()} needs.`,
+    keywords: [
+      `${category.name.toLowerCase()} AI tools`,
+      `${category.name.toLowerCase()} software`,
+      `AI ${category.name.toLowerCase()}`,
+      `${category.name.toLowerCase()} SaaS`,
+      "AI-powered tools",
+      "artificial intelligence",
+      "productivity tools",
+    ],
+    openGraph: {
+      title: `${category.name} AI Tools | AI-Powered SaaS Directory`,
+      description: `Discover ${productCount} AI-powered ${category.name.toLowerCase()} tools. ${
+        category.description ||
+        `Find the perfect solution for your ${category.name.toLowerCase()} needs.`
+      }`,
+      type: "website",
+      url: `/categories/${slug}`,
+    },
+    twitter: {
+      card: "summary",
+      title: `${category.name} AI Tools | AI-Powered SaaS Directory`,
+      description: `Discover ${productCount} AI-powered ${category.name.toLowerCase()} tools in our curated directory.`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+    alternates: {
+      canonical: `/categories/${slug}`,
+    },
+  };
+}
 
 /**
  * Utility function to get pricing badge color
