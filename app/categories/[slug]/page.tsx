@@ -125,7 +125,7 @@ export default async function CategoryPage({ params }: Params) {
   const { data: products } = await supabase
     .from("products")
     .select(
-      "id, name, description, url, pricing, logo_url, featured, created_at, slug"
+      "id, name, description, url, pricing, logo_url, image_url, featured, created_at, slug"
     )
     .eq("category_id", category.id)
     .eq("status", "active")
@@ -208,6 +208,7 @@ interface ProductCardProps {
     url: string;
     pricing: string;
     logo_url: string | null;
+    image_url: string | null;
     featured: boolean;
     created_at: string;
     slug: string;
@@ -259,6 +260,23 @@ function ProductCard({ product, categoryName }: ProductCardProps) {
           </Badge>
         </div>
       </CardHeader>
+
+      {/* Product Image */}
+      {product.image_url && (
+        <div className="px-6 pb-4">
+          <Link href={`/products/${product.slug}`} className="block">
+            <div className="relative w-full h-52 rounded-lg overflow-hidden bg-muted/50 border border-border/50">
+              <Image
+                src={product.image_url}
+                alt={`${product.name} screenshot`}
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-300"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
+            </div>
+          </Link>
+        </div>
+      )}
 
       <CardContent className="flex-1 flex flex-col">
         <CardDescription className="text-sm leading-relaxed flex-1 line-clamp-3">

@@ -36,7 +36,7 @@ export function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <Card className="h-full flex flex-col hover:shadow-lg transition-shadow duration-200">
+    <Card className="h-full flex flex-col hover:shadow-lg transition-shadow duration-200 group">
       <CardHeader className="pb-4">
         <div className="flex items-start justify-between">
           <div className="flex items-center space-x-3 flex-1">
@@ -75,6 +75,23 @@ export function ProductCard({ product }: ProductCardProps) {
           </Badge>
         </div>
       </CardHeader>
+
+      {/* Product Image */}
+      {product.image_url && (
+        <div className="px-6 pb-4">
+          <Link href={`/products/${product.slug}`} className="block">
+            <div className="relative w-full h-32 rounded-lg overflow-hidden bg-muted/50 border border-border/50">
+              <Image
+                src={product.image_url}
+                alt={`${product.name} screenshot`}
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-300"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
+            </div>
+          </Link>
+        </div>
+      )}
 
       <CardContent className="flex-1 flex flex-col">
         <CardDescription className="text-sm text-muted-foreground leading-relaxed flex-1">

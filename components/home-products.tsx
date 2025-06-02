@@ -88,6 +88,24 @@ export const HomeProducts = ({
                       </Link>
                     </div>
 
+                    {/* Product Image */}
+                    {product.image_url && (
+                      <Link
+                        href={`/products/${product.slug}`}
+                        className="block"
+                      >
+                        <div className="relative w-full h-32 rounded-lg overflow-hidden bg-muted/50 border border-border/50">
+                          <Image
+                            src={product.image_url}
+                            alt={`${product.name} screenshot`}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-300"
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                          />
+                        </div>
+                      </Link>
+                    )}
+
                     {/* Description */}
                     <Link href={`/products/${product.slug}`} className="flex-1">
                       <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">
