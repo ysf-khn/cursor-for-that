@@ -36,6 +36,7 @@ const CATEGORIES = [
   "3D Modeling",
   "Analytics",
   "Biotech",
+  "Business Intelligence",
   "Coding",
   "Communication",
   "Content Creation",

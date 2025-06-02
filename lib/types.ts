@@ -59,6 +59,7 @@ export const DEFAULT_CATEGORIES = [
   "3D Modeling",
   "Analytics",
   "Biotech",
+  "Business Intelligence",
   "Communication",
   "Customer Support",
   "Data Analysis",
