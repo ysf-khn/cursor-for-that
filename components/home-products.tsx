@@ -42,9 +42,9 @@ export const HomeProducts = ({
               {categoryProducts[category.id]?.slice(0, 4).map((product) => (
                 <article
                   key={product.id}
-                  className="group relative bg-card border border-border rounded-xl overflow-hidden hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 hover:border-primary/30 hover:-translate-y-1"
+                  className="group relative bg-card border border-border rounded-xl overflow-hidden hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 hover:border-primary/30 hover:-translate-y-1 flex flex-col h-full"
                 >
-                  <div className="p-6 space-y-4">
+                  <div className="p-6 space-y-4 flex flex-col flex-1">
                     {/* Logo and Pricing Badge */}
                     <div className="flex items-start justify-between">
                       <Link
@@ -59,7 +59,7 @@ export const HomeProducts = ({
                                 src={product.logo_url}
                                 alt={`${product.name} logo`}
                                 fill
-                                className="object-cover"
+                                className="object-contain"
                                 sizes="48px"
                               />
                             </div>
@@ -89,14 +89,14 @@ export const HomeProducts = ({
                     </div>
 
                     {/* Description */}
-                    <Link href={`/products/${product.slug}`}>
+                    <Link href={`/products/${product.slug}`} className="flex-1">
                       <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed">
                         {product.description}
                       </p>
                     </Link>
 
                     {/* Action Buttons */}
-                    <div className="flex gap-2 pt-2">
+                    <div className="flex gap-2 pt-2 mt-auto">
                       <Button
                         asChild
                         size="sm"

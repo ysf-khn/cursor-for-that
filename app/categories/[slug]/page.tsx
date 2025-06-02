@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
   if (!category) {
     return {
-      title: "Category Not Found | AI-Powered SaaS Directory",
+      title: "Category Not Found",
       description: "The requested category could not be found.",
     };
   }
@@ -48,7 +48,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const productCount = products?.length || 0;
 
   return {
-    title: `${category.name} AI Tools | AI-Powered SaaS Directory`,
+    title: `${category.name} Products`,
     description: category.description
       ? `${
           category.description
@@ -64,7 +64,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       "productivity tools",
     ],
     openGraph: {
-      title: `${category.name} AI Tools | AI-Powered SaaS Directory`,
+      title: `${category.name} Products | Cursor For That`,
       description: `Discover ${productCount} AI-powered ${category.name.toLowerCase()} tools. ${
         category.description ||
         `Find the perfect solution for your ${category.name.toLowerCase()} needs.`
@@ -74,7 +74,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     },
     twitter: {
       card: "summary",
-      title: `${category.name} AI Tools | AI-Powered SaaS Directory`,
+      title: `${category.name} Products | Cursor For That`,
       description: `Discover ${productCount} AI-powered ${category.name.toLowerCase()} tools in our curated directory.`,
     },
     robots: {
@@ -227,7 +227,7 @@ function ProductCard({ product, categoryName }: ProductCardProps) {
                   src={product.logo_url}
                   alt={`${product.name} logo`}
                   fill
-                  className="object-cover"
+                  className="object-contain"
                   sizes="48px"
                 />
               </div>

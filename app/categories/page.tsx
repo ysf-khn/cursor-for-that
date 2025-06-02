@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Browse AI Tool Categories | AI-Powered SaaS Directory",
+  title: "Browse Product Categories",
   description:
     "Explore AI-powered SaaS tools organized by category. Find coding tools, productivity apps, writing assistants, design software, and more AI-enhanced solutions for your workflow.",
   keywords: [
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     "developer tools",
   ],
   openGraph: {
-    title: "Browse AI Tool Categories | AI-Powered SaaS Directory",
+    title: "Browse Product Categories | Cursor For That",
     description:
       "Explore AI-powered SaaS tools organized by category. Find the perfect AI solution for coding, productivity, writing, design, and more.",
     type: "website",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary",
-    title: "Browse AI Tool Categories | AI-Powered SaaS Directory",
+    title: "Browse Product Categories | Cursor For That",
     description:
       "Explore AI-powered SaaS tools organized by category. Find the perfect AI solution for your workflow.",
   },

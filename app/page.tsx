@@ -136,7 +136,7 @@ export default async function HomePage() {
 
             {/* Feature Highlights */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-24 max-w-5xl mx-auto">
-              <div className="group p-8 rounded-2xl bg-card/50 border border-border/50 hover:border-primary/30 hover:bg-card/80 transition-all duration-300">
+              <div className="group p-8 flex flex-col items-center justify-center rounded-2xl bg-card/50 border border-border/50 hover:border-primary/30 hover:bg-card/80 transition-all duration-300">
                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <Zap className="w-6 h-6 text-primary" />
                 </div>
@@ -149,7 +149,7 @@ export default async function HomePage() {
                 </p>
               </div>
 
-              <div className="group p-8 rounded-2xl bg-card/50 border border-border/50 hover:border-primary/30 hover:bg-card/80 transition-all duration-300">
+              <div className="group p-8 flex flex-col items-center justify-center rounded-2xl bg-card/50 border border-border/50 hover:border-primary/30 hover:bg-card/80 transition-all duration-300">
                 <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <Target className="w-6 h-6 text-blue-500" />
                 </div>
@@ -162,7 +162,7 @@ export default async function HomePage() {
                 </p>
               </div>
 
-              <div className="group p-8 rounded-2xl bg-card/50 border border-border/50 hover:border-primary/30 hover:bg-card/80 transition-all duration-300">
+              <div className="group p-8 flex flex-col items-center justify-center rounded-2xl bg-card/50 border border-border/50 hover:border-primary/30 hover:bg-card/80 transition-all duration-300">
                 <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <Sparkles className="w-6 h-6 text-purple-500" />
                 </div>
@@ -178,9 +178,9 @@ export default async function HomePage() {
 
             {/* CTA Section */}
             <div className="mt-24 p-12 rounded-3xl bg-gradient-to-r from-primary/10 via-blue-500/10 to-purple-500/10 border border-primary/20">
-              <h2 className="text-3xl font-bold mb-6 text-foreground">
+              {/* <h2 className="text-3xl font-bold mb-6 text-foreground">
                 Ready to discover your next favorite tool?
-              </h2>
+              </h2> */}
               <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
                 Join thousands of professionals who use our directory to find
                 the perfect AI-powered solutions for their needs.
