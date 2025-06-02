@@ -107,13 +107,60 @@ export const productSubmissionSchema = z.object({
   name: z
     .string()
     .min(1, "Product name is required")
-    .max(100, "Product name must be less than 100 characters"),
+    .max(100, "Product name must be less than 100 characters")
+    .refine(
+      (val) => !/<script|javascript:|data:|vbscript:/i.test(val),
+      "Product name contains invalid characters"
+    ),
   description: z
     .string()
     .min(10, "Description must be at least 10 characters")
-    .max(500, "Description must be less than 500 characters"),
-  url: z.string().min(1, "URL is required"),
-  category: z.string().min(1, "Please select or enter a category"),
+    .max(500, "Description must be less than 500 characters")
+    .refine(
+      (val) => !/<script|javascript:|data:|vbscript:/i.test(val),
+      "Description contains invalid characters"
+    ),
+  url: z
+    .string()
+    .min(1, "URL is required")
+    .url("Please enter a valid URL")
+    .refine((val) => {
+      try {
+        const url = new URL(val);
+        // Only allow http and https protocols
+        return url.protocol === "http:" || url.protocol === "https:";
+      } catch {
+        return false;
+      }
+    }, "URL must use http or https protocol")
+    .refine((val) => {
+      try {
+        const url = new URL(val);
+        // Block localhost, private IPs, and suspicious domains
+        const hostname = url.hostname.toLowerCase();
+        const blockedPatterns = [
+          /^localhost$/,
+          /^127\./,
+          /^192\.168\./,
+          /^10\./,
+          /^172\.(1[6-9]|2[0-9]|3[0-1])\./,
+          /^0\./,
+          /\.local$/,
+          /^file:/,
+        ];
+        return !blockedPatterns.some((pattern) => pattern.test(hostname));
+      } catch {
+        return false;
+      }
+    }, "URL cannot point to local or private networks"),
+  category: z
+    .string()
+    .min(1, "Please select or enter a category")
+    .max(50, "Category name must be less than 50 characters")
+    .refine(
+      (val) => !/<script|javascript:|data:|vbscript:/i.test(val),
+      "Category contains invalid characters"
+    ),
   customCategory: z.string().optional(),
   pricing: z.enum(PRICING_OPTIONS, {
     required_error: "Please select a pricing option",
