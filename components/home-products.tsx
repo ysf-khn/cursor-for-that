@@ -3,7 +3,7 @@
 import { getPricingBadgeStyle } from "@/utils/formatting";
 import { ExternalLink } from "lucide-react";
 import { Button } from "./ui/button";
-import Image from "next/image";
+// import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/lib/types";
 import { Category } from "@/lib/types";
@@ -55,12 +55,19 @@ export const HomeProducts = ({
                         {/* Logo */}
                         {product.logo_url ? (
                           <div className="relative h-14 w-14 rounded-xl overflow-hidden bg-muted/50 flex-shrink-0 ring-1 ring-border/50 group-hover:ring-primary/30 transition-all duration-300">
-                            <Image
+                            {/* <Image
                               src={product.logo_url}
                               alt={`${product.name} logo`}
                               fill
                               className="object-contain"
                               sizes="48px"
+                            /> */}
+                            <img
+                              src={product.logo_url}
+                              alt={`${product.name} logo`}
+                              className="object-contain"
+                              width={48}
+                              height={48}
                             />
                           </div>
                         ) : (
@@ -106,12 +113,19 @@ export const HomeProducts = ({
                         className="block"
                       >
                         <div className="relative w-full h-36 rounded-xl overflow-hidden bg-gradient-to-br from-muted/30 to-muted/60 border border-border/30 group-hover:border-primary/20 transition-all duration-300">
-                          <Image
+                          {/* <Image
                             src={product.image_url}
                             alt={`${product.name} screenshot`}
                             fill
                             className="object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
                             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                          /> */}
+                          <img
+                            src={product.image_url}
+                            alt={`${product.name} screenshot`}
+                            className="object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
+                            width={640}
+                            height={360}
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                         </div>
