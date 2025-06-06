@@ -84,12 +84,15 @@ export function Header() {
             ))}
           </nav>
 
-          <div className="flex items-center justify-end space-x-4 flex-1">
+          <div className="hidden md:flex items-center justify-end space-x-4 flex-1">
             <ThemeToggle />
             <UserProfile />
+          </div>
 
+          <div className="flex md:hidden items-center space-x-2">
+            <ThemeToggle />
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-              <SheetTrigger asChild className="md:hidden">
+              <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="shrink-0">
                   <Menu className="h-5 w-5" />
                   <span className="sr-only">Toggle menu</span>
