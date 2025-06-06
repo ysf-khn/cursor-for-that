@@ -41,6 +41,7 @@ import {
   CheckSquare,
   Cpu,
   LucideIcon,
+  Presentation,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -94,6 +95,7 @@ function getCategoryIcon(categoryName: string): LucideIcon {
     "Project Management": FolderKanban,
     Communication: MessageSquare,
     "Sales & CRM": Users,
+    Slides: Presentation,
     "Finance & Accounting": Calculator,
     "HR & Recruitment": UserCheck,
     "E-commerce": ShoppingCart,

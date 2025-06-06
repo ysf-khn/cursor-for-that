@@ -63,6 +63,7 @@ const CATEGORIES = [
   "Real Estate",
   "Research",
   "Sales & CRM",
+  "Slides",
   "Spreadsheets",
   "Security",
   "SEO",

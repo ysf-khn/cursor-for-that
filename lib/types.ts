@@ -84,6 +84,7 @@ export const DEFAULT_CATEGORIES = [
   "Real Estate",
   "Research",
   "Sales & CRM",
+  "Slides",
   "Security",
   "Smart Contracts",
   "Social Media",
