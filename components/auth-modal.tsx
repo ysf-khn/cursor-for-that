@@ -40,7 +40,7 @@ export function AuthModal({ open, onOpenChange }: AuthModalProps) {
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="max-w-[90vw] sm:max-w-md rounded-2xl">
         <DialogHeader>
           <DialogTitle className="text-center">
             {success ? "Success!" : "Sign In"}
@@ -48,7 +48,7 @@ export function AuthModal({ open, onOpenChange }: AuthModalProps) {
           <DialogDescription className="text-center">
             {success
               ? "Authentication successful! You can now like products."
-              : "Sign in with Google to like products and save your favorites"}
+              : "Sign in with Google to like products and save your favorites."}
           </DialogDescription>
         </DialogHeader>
 
