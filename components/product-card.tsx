@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ExternalLink } from "lucide-react";
 import {
   Card,
@@ -41,19 +42,13 @@ export function ProductCard({ product }: ProductCardProps) {
           <div className="flex items-center space-x-3 flex-1">
             {product.logo_url ? (
               <div className="relative h-12 w-12 rounded-lg overflow-hidden bg-muted flex-shrink-0">
-                {/* <Image
+                <Image
                   src={product.logo_url}
                   alt={`${product.name} logo`}
                   fill
                   className="object-cover"
                   sizes="48px"
-                /> */}
-                <img
-                  src={product.logo_url}
-                  alt={`${product.name} logo`}
-                  className="object-cover"
-                  width={48}
-                  height={48}
+                  unoptimized={true}
                 />
               </div>
             ) : (
@@ -87,19 +82,13 @@ export function ProductCard({ product }: ProductCardProps) {
         <div className="px-6 pb-4">
           <Link href={`/products/${product.slug}`} className="block">
             <div className="relative w-full h-32 rounded-lg overflow-hidden bg-muted/50 border border-border/50">
-              {/* <Image
+              <Image
                 src={product.image_url}
                 alt={`${product.name} screenshot`}
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-300"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              /> */}
-              <img
-                src={product.image_url}
-                alt={`${product.name} screenshot`}
-                className="object-cover group-hover:scale-105 transition-transform duration-300"
-                width={640}
-                height={360}
+                unoptimized={true}
               />
             </div>
           </Link>
