@@ -47,11 +47,12 @@ export async function signup(formData: FormData) {
 
 export async function signInWithGoogle() {
   const supabase = await createClient();
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+      redirectTo: `${siteUrl}/auth/callback`,
     },
   });
 
@@ -59,7 +60,5 @@ export async function signInWithGoogle() {
     redirect("/error");
   }
 
-  if (data.url) {
-    redirect(data.url);
-  }
+  redirect(data.url);
 }
