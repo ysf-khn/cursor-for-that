@@ -5,6 +5,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { UserProfile } from "@/components/user-profile";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -85,9 +86,7 @@ export function Header() {
 
           <div className="flex items-center justify-end space-x-4 flex-1">
             <ThemeToggle />
-            <Button asChild variant="default" className="hidden sm:inline-flex">
-              <Link href="/submit">Submit Your Product</Link>
-            </Button>
+            <UserProfile />
 
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild className="md:hidden">
@@ -108,14 +107,9 @@ export function Header() {
                       {link.label}
                     </Link>
                   ))}
-                  <Button asChild className="mt-4">
-                    <Link
-                      href="/submit"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Submit Your Product
-                    </Link>
-                  </Button>
+                  <div className="mt-6 pt-4 border-t">
+                    <UserProfile />
+                  </div>
                 </nav>
               </SheetContent>
             </Sheet>

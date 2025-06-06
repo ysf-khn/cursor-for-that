@@ -13,6 +13,9 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Metadata } from "next";
+import { getProductsWithLikeStatus } from "@/actions/products";
+import { CompactLikeButton } from "@/components/like-button";
+import { getPricingBadgeStyle } from "@/utils/formatting";
 
 interface Params {
   params: Promise<{ slug: string }>;
@@ -88,22 +91,6 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 
 /**
- * Utility function to get pricing badge color
- */
-function getPricingColor(pricing: string) {
-  switch (pricing) {
-    case "Free":
-      return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
-    case "Freemium":
-      return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300";
-    case "Paid":
-      return "bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300";
-    default:
-      return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
-  }
-}
-
-/**
  * Utility function to truncate description
  */
 function truncateDescription(description: string, maxLength: number) {
@@ -122,14 +109,18 @@ export default async function CategoryPage({ params }: Params) {
 
   if (!category) return notFound();
 
-  const { data: products } = await supabase
-    .from("products")
-    .select(
-      "id, name, description, url, pricing, logo_url, image_url, featured, created_at, slug"
-    )
-    .eq("category_id", category.id)
-    .eq("status", "active")
-    .order("created_at", { ascending: false });
+  // Use getProductsWithLikeStatus to fetch products with like information
+  const allProducts = await getProductsWithLikeStatus();
+  const products = allProducts.filter(
+    (product) =>
+      product.category_id === category.id && product.status === "active"
+  );
+
+  // Sort products by creation date (newest first)
+  products.sort(
+    (a, b) =>
+      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  );
 
   return (
     <div className="min-h-screen bg-background">
@@ -212,6 +203,8 @@ interface ProductCardProps {
     featured: boolean;
     created_at: string;
     slug: string;
+    like_count: number;
+    isLiked: boolean;
   };
   categoryName: string;
 }
@@ -245,17 +238,25 @@ function ProductCard({ product, categoryName }: ProductCardProps) {
               </CardTitle>
             </div>
           </div>
-          {product.featured && (
-            <Badge variant="secondary" className="text-xs ml-2">
-              Featured
-            </Badge>
-          )}
+          <div className="flex flex-col items-end gap-2 flex-shrink-0">
+            {product.featured && (
+              <Badge variant="secondary" className="text-xs">
+                Featured
+              </Badge>
+            )}
+            <CompactLikeButton
+              productId={product.id}
+              initialIsLiked={product.isLiked}
+              initialLikeCount={product.like_count}
+              className="self-end"
+            />
+          </div>
         </div>
         <div className="flex items-center gap-2 mt-3">
           <Badge variant="outline" className="text-xs">
             {categoryName}
           </Badge>
-          <Badge className={`text-xs ${getPricingColor(product.pricing)}`}>
+          <Badge className={`text-xs ${getPricingBadgeStyle(product.pricing)}`}>
             {product.pricing}
           </Badge>
         </div>

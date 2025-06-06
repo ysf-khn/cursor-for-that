@@ -1,11 +1,13 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { AnimatedCounter } from "@/components/ui/animated-counter";
 import { createClient } from "@/utils/supabase/server";
 import { ArrowRight, Sparkles, Zap, Target } from "lucide-react";
 import Link from "next/link";
 import { Category, Product } from "@/lib/types";
 import { HomeProducts } from "@/components/home-products";
 import { Metadata } from "next";
+import { getProductsWithLikeStatus } from "@/actions/products";
 
 export const metadata: Metadata = {
   title: "Cursor For That | Find the Perfect AI Tools for Your Workflow",
@@ -80,19 +82,21 @@ export default async function HomePage() {
     .select("*")
     .order("relevance", { ascending: true });
 
-  const categoryProducts: Record<string, Product[]> = {};
+  const categoryProducts: Record<string, (Product & { isLiked: boolean })[]> =
+    {};
 
   if (categories) {
     await Promise.all(
       categories.map(async (cat) => {
-        const { data: products } = await supabase
-          .from("products")
-          .select(
-            "id, name, description, url, pricing, logo_url, image_url, category_id, category_name, featured, status, created_at, updated_at, slug"
-          )
-          .eq("category_id", cat.id);
+        const products = await getProductsWithLikeStatus({
+          category: cat.name,
+        });
 
-        categoryProducts[cat.id] = products || [];
+        const categorySpecificProducts = products.filter(
+          (product) => product.category_id === cat.id
+        );
+
+        categoryProducts[cat.id] = categorySpecificProducts;
       })
     );
   }
@@ -127,6 +131,40 @@ export default async function HomePage() {
               prompts to revolutionize your coding, writing, productivity, and
               creative workflows.
             </p>
+
+            {/* Stats Section */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-8 mb-16">
+              <div className="text-center">
+                <div className="text-3xl sm:text-4xl font-bold text-foreground mb-2">
+                  <AnimatedCounter
+                    end={Object.values(categoryProducts).reduce(
+                      (total, products) => total + products.length,
+                      0
+                    )}
+                    duration={2500}
+                    delay={500}
+                    suffix="+"
+                  />
+                </div>
+                <div className="text-sm text-muted-foreground font-medium">
+                  AI-Powered Tools
+                </div>
+              </div>
+              <div className="hidden sm:block w-px h-12 bg-border"></div>
+              <div className="text-center">
+                <div className="text-3xl sm:text-4xl font-bold text-foreground mb-2">
+                  <AnimatedCounter
+                    end={categories?.length || 0}
+                    duration={2000}
+                    delay={600}
+                    suffix="+"
+                  />
+                </div>
+                <div className="text-sm text-muted-foreground font-medium">
+                  Categories
+                </div>
+              </div>
+            </div>
 
             {/* Categories and Products */}
             <HomeProducts

@@ -27,6 +27,7 @@ export interface Product {
   created_at: string;
   updated_at: string;
   slug: string;
+  like_count: number;
   categories?: Category | null; // For joined data
 }
 
@@ -249,6 +250,7 @@ export type Database = {
           created_at: string;
           updated_at: string;
           slug: string;
+          like_count: number;
         };
         Insert: {
           id?: string;
@@ -265,6 +267,7 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
           slug?: string;
+          like_count?: number;
         };
         Update: {
           id?: string;
@@ -280,6 +283,27 @@ export type Database = {
           status?: string;
           updated_at?: string;
           slug?: string;
+          like_count?: number;
+        };
+      };
+      likes: {
+        Row: {
+          id: string;
+          user_id: string;
+          product_id: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          product_id: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          product_id?: string;
+          created_at?: string;
         };
       };
       submissions: {

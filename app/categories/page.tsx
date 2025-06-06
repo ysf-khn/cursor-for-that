@@ -2,6 +2,46 @@ import { supabase } from "@/lib/supabase";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Metadata } from "next";
+import {
+  Code,
+  PenTool,
+  Briefcase,
+  FileText,
+  Wrench,
+  BarChart3,
+  Palette,
+  Megaphone,
+  Headphones,
+  FolderKanban,
+  MessageSquare,
+  Users,
+  Calculator,
+  UserCheck,
+  ShoppingCart,
+  Shield,
+  TrendingUp,
+  Share2,
+  Video,
+  GraduationCap,
+  Zap,
+  Search,
+  Mail,
+  Globe,
+  Layers,
+  Brain,
+  Database,
+  Smartphone,
+  Scale,
+  CreditCard,
+  Target,
+  Home,
+  BookOpen,
+  Gavel,
+  TestTube,
+  CheckSquare,
+  Cpu,
+  LucideIcon,
+} from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Browse Product Categories",
@@ -39,6 +79,58 @@ export const metadata: Metadata = {
 
 export const revalidate = 60; // ISR every 60s
 
+// Function to get the appropriate icon for each category
+function getCategoryIcon(categoryName: string): LucideIcon {
+  const iconMap: Record<string, LucideIcon> = {
+    "AI Writing": PenTool,
+    "Code Automation": Code,
+    "Task Management": CheckSquare,
+    "Content Creation": FileText,
+    "Developer Tools": Wrench,
+    "Data Analysis": BarChart3,
+    "Design & UI/UX": Palette,
+    "Marketing Automation": Megaphone,
+    "Customer Support": Headphones,
+    "Project Management": FolderKanban,
+    Communication: MessageSquare,
+    "Sales & CRM": Users,
+    "Finance & Accounting": Calculator,
+    "HR & Recruitment": UserCheck,
+    "E-commerce": ShoppingCart,
+    Security: Shield,
+    Analytics: TrendingUp,
+    "Social Media": Share2,
+    "Video & Audio": Video,
+    "Education & Training": GraduationCap,
+    Productivity: Zap,
+    SEO: Search,
+    Email: Mail,
+    Coding: Code,
+    Marketing: Megaphone,
+    Writing: PenTool,
+    "3D Modeling": Layers,
+    Biotech: Brain,
+    "Business Intelligence": Database,
+    DevOps: Cpu,
+    Ecommerce: ShoppingCart,
+    Spreadsheets: BarChart3,
+    "File Management": FolderKanban,
+    "Game Dev": Smartphone,
+    Government: Scale,
+    "Hardware/IoT": Cpu,
+    Legal: Gavel,
+    Payments: CreditCard,
+    "Product Management": Target,
+    "Real Estate": Home,
+    Research: BookOpen,
+    "Smart Contracts": Scale,
+    Testing: TestTube,
+    "Web Scraping": Globe,
+  };
+
+  return iconMap[categoryName] || Briefcase; // Default icon if category not found
+}
+
 export default async function CategoriesPage() {
   // Fetch categories and count of products
   const { data: categories, error } = await supabase
@@ -55,23 +147,31 @@ export default async function CategoriesPage() {
       <h1 className="text-3xl font-bold text-center py-8">All Categories</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {categories.map((category) => (
-          <Link
-            key={category.id}
-            href={`/categories/${category.slug}`}
-            className="border rounded-xl p-6 bg-card transition flex flex-col justify-between hover:bg-card/80 hover:cursor-pointer hover:border-primary hover:shadow-lg hover:shadow-primary/20 "
-          >
-            <div>
-              <h2 className="text-xl font-semibold mb-2">{category.name}</h2>
-              <p className="text-sm text-muted-foreground">
-                {category.description}
-              </p>
-            </div>
-            <Badge className="mt-4 w-fit">
-              {category.products[0].count || 0} tools
-            </Badge>
-          </Link>
-        ))}
+        {categories.map((category) => {
+          const IconComponent = getCategoryIcon(category.name);
+          return (
+            <Link
+              key={category.id}
+              href={`/categories/${category.slug}`}
+              className="border rounded-xl p-6 bg-card transition flex flex-col justify-between hover:bg-card/80 hover:cursor-pointer hover:border-primary hover:shadow-lg hover:shadow-primary/20 "
+            >
+              <div>
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                    <IconComponent className="w-5 h-5" />
+                  </div>
+                  <h2 className="text-xl font-semibold">{category.name}</h2>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  {category.description}
+                </p>
+              </div>
+              <Badge className="mt-4 w-fit">
+                {category.products[0].count || 0} tools
+              </Badge>
+            </Link>
+          );
+        })}
       </div>
     </div>
   );

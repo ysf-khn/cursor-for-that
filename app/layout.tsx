@@ -4,7 +4,9 @@ import "./globals.css";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { ThemeProvider } from "@/components/theme-provider";
+import { AuthModalProvider } from "@/components/auth-modal-provider";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { Analytics } from "@vercel/analytics/next";
 
 const bricolage = Bricolage_Grotesque({
   variable: "--font-bricolage",
@@ -140,10 +142,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
+          <AuthModalProvider>
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </AuthModalProvider>
         </ThemeProvider>
+        <Analytics />
       </body>
       <GoogleAnalytics gaId="G-WNP07JK4ZZ" />
     </html>
