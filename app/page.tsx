@@ -115,7 +115,7 @@ export default async function HomePage() {
               className="mb-6 px-4 py-2 text-sm font-medium bg-primary/10 text-primary border-primary/20 hover:bg-primary/15 transition-colors"
             >
               <Sparkles className="w-4 h-4 mr-2" />
-              The Community&apos;s Directory
+              Find Cursor For All Things
             </Badge>
 
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-foreground mb-6 leading-tight">

@@ -100,6 +100,7 @@ function getCategoryIcon(categoryName: string): LucideIcon {
     "HR & Recruitment": UserCheck,
     "E-commerce": ShoppingCart,
     Security: Shield,
+    Trading: TrendingUp,
     Analytics: TrendingUp,
     "Social Media": Share2,
     "Video & Audio": Video,

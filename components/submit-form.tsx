@@ -71,6 +71,7 @@ const CATEGORIES = [
   "Social Media",
   "Task Management",
   "Testing",
+  "Trading",
   "Video & Audio",
   "Web Scraping",
   "Writing",

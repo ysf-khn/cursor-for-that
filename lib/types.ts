@@ -90,6 +90,7 @@ export const DEFAULT_CATEGORIES = [
   "Social Media",
   "Task Management",
   "Testing",
+  "Trading",
   "Video & Audio",
   "Web Scraping",
 ] as const;
