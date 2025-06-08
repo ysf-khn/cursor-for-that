@@ -84,6 +84,7 @@ export async function getProductsWithLikeStatus(filters?: {
     `
     )
     .eq("status", "active")
+    .order("like_count", { ascending: false })
     .order("featured", { ascending: false })
     .order("created_at", { ascending: false });
 

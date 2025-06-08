@@ -48,6 +48,7 @@ const CATEGORIES = [
   "Ecommerce",
   "Education & Training",
   "Email",
+  "Everyday AI",
   "File Management",
   "Finance & Accounting",
   "Game Dev",

@@ -69,6 +69,7 @@ export const DEFAULT_CATEGORIES = [
   "Ecommerce",
   "Education & Training",
   "Email",
+  "Everyday AI",
   "Spreadsheets",
   "File Management",
   "Finance & Accounting",

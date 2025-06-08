@@ -95,6 +95,7 @@ function getCategoryIcon(categoryName: string): LucideIcon {
     "Project Management": FolderKanban,
     Communication: MessageSquare,
     "Sales & CRM": Users,
+    "Everyday AI": Brain,
     Slides: Presentation,
     "Finance & Accounting": Calculator,
     "HR & Recruitment": UserCheck,
@@ -136,10 +137,9 @@ function getCategoryIcon(categoryName: string): LucideIcon {
 
 export default async function CategoriesPage() {
   // Fetch categories and count of products
-  const { data: categories, error } = await supabase
-    .from("categories")
-    .select("id, name, slug, description, products(count)")
-    .order("relevance", { ascending: true });
+  const { data: categories, error } = await supabase.rpc(
+    "get_categories_by_product_count"
+  );
 
   if (error || !categories) {
     return <div className="p-6">Failed to load categories.</div>;
@@ -150,31 +150,39 @@ export default async function CategoriesPage() {
       <h1 className="text-3xl font-bold text-center py-8">All Categories</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {categories.map((category) => {
-          const IconComponent = getCategoryIcon(category.name);
-          return (
-            <Link
-              key={category.id}
-              href={`/categories/${category.slug}`}
-              className="border rounded-xl p-6 bg-card transition flex flex-col justify-between hover:bg-card/80 hover:cursor-pointer hover:border-primary hover:shadow-lg hover:shadow-primary/20 "
-            >
-              <div>
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="p-2 rounded-lg bg-primary/10 text-primary">
-                    <IconComponent className="w-5 h-5" />
+        {categories.map(
+          (category: {
+            id: string;
+            name: string;
+            slug: string;
+            description: string;
+            product_count: number;
+          }) => {
+            const IconComponent = getCategoryIcon(category.name);
+            return (
+              <Link
+                key={category.id}
+                href={`/categories/${category.slug}`}
+                className="border rounded-xl p-6 bg-card transition flex flex-col justify-between hover:bg-card/80 hover:cursor-pointer hover:border-primary hover:shadow-lg hover:shadow-primary/20 "
+              >
+                <div>
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                      <IconComponent className="w-5 h-5" />
+                    </div>
+                    <h2 className="text-xl font-semibold">{category.name}</h2>
                   </div>
-                  <h2 className="text-xl font-semibold">{category.name}</h2>
+                  <p className="text-sm text-muted-foreground">
+                    {category.description}
+                  </p>
                 </div>
-                <p className="text-sm text-muted-foreground">
-                  {category.description}
-                </p>
-              </div>
-              <Badge className="mt-4 w-fit">
-                {category.products[0].count || 0} tools
-              </Badge>
-            </Link>
-          );
-        })}
+                <Badge className="mt-4 w-fit">
+                  {category.product_count || 0} tools
+                </Badge>
+              </Link>
+            );
+          }
+        )}
       </div>
     </div>
   );

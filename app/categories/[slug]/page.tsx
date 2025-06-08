@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const productCount = products?.length || 0;
 
   return {
-    title: `${category.name} Products`,
+    title: `Cursor For ${category.name}`,
     description: category.description
       ? `${
           category.description
@@ -116,11 +116,11 @@ export default async function CategoryPage({ params }: Params) {
       product.category_id === category.id && product.status === "active"
   );
 
-  // Sort products by creation date (newest first)
-  products.sort(
-    (a, b) =>
-      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-  );
+  // // Sort products by creation date (newest first)
+  // products.sort(
+  //   (a, b) =>
+  //     new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  // );
 
   return (
     <div className="min-h-screen bg-background">
